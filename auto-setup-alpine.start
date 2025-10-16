@@ -1,0 +1,34 @@
+#!/bin/sh
+
+set -o errexit
+set -o nounset
+
+#  shutdown on completion.
+trap 'poweroff' EXIT INT
+
+# Close standard input.
+exec 0<&-
+
+# Run only once.
+rm -f /etc/local.d/auto-setup-alpine.start
+rm -f /etc/runlevels/default/local
+
+# Answer 'y' to the question about formatting the disk
+printf 'y\n' | timeout 300 setup-alpine -ef /etc/auto-setup-alpine/answers
+rm -rf /etc/auto-setup-alpine
+
+mount /dev/vda3 /mnt
+mount /dev/vda1 /mnt/boot
+
+# Disable password authentication
+sed -i -e 's/^root:x:/root:*:/' -e 's/^user:x:/user:*:/' /mnt/etc/passwd
+sed -i -e 's/^root:[^:]*/root:*/' -e 's/^user:[^:]*/user:*/' /mnt/etc/shadow
+
+cat > /mnt/etc/doas.d/site.conf <<EOF
+permit nopass :wheel
+permit nopass keepenv root
+EOF
+
+chroot /mnt apk update
+chroot /mnt apk upgrade
+
