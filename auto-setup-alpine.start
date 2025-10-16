@@ -2,6 +2,14 @@
 
 set -o errexit
 set -o nounset
+set -x
+
+exec 1>/dev/console 2>&1
+if [ -c /dev/ttyS0 ]; then
+	# Default serial config: xon/xoff flow control.
+	stty -F /dev/ttyS0
+	setconsole /dev/ttyS0
+fi
 
 #  shutdown on completion.
 trap 'poweroff' EXIT INT

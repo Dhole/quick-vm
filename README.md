@@ -11,8 +11,8 @@ Prepare installation media:
 ./setup-iso.sh
 ```
 
-Install Alpine to a disk image.  After boot you'll get blank screen while the
-install script runs.  Upon completion the vm should poweroff automatically.
+Install Alpine to a disk image.  After boot you'll see the log of the install
+script.  Upon completion the vm should poweroff automatically.
 ```
 ./install-vm.sh
 ```
