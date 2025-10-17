@@ -11,5 +11,9 @@ qemu-system-x86_64  \
   -device virtio-net-pci,netdev=net0 \
   -netdev user,id=net0,hostfwd=tcp::2222-:22 \
   -drive if=virtio,format=qcow2,file="${IMAGE_FILE}" \
-  -nographic
+  -display none \
+  -daemonize \
+  -pidfile qemu-pid.txt
+  # -nographic
+
 

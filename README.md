@@ -17,7 +17,7 @@ script.  Upon completion the vm should poweroff automatically.
 ./install-vm.sh
 ```
 
-Start the vm (password login is disabled, just leave this running):
+Start the vm (the process will get detached):
 ```
 ./start-vm.sh
 ```
@@ -25,6 +25,11 @@ Start the vm (password login is disabled, just leave this running):
 Ssh login:
 ```
 ./ssh-vm.sh
+```
+
+Stop the vm:
+```
+kill $(cat qemu-pid.txt)
 ```
 
 # Credits
